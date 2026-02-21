@@ -45,6 +45,7 @@ Voltage regulation is implemented using:
 Both regulators are adjustable via external multi-turn potentiometers mounted off-board (front panel configuration).
 For additional flexibility, THT footprints for potentiometers are included on the PCB.  
 These can be used if the user needs or prefers the connstant output voltage.
+
 <img width="408" height="153" alt="image" src="https://github.com/user-attachments/assets/947a3696-673c-44f5-ad98-845b30751597" />
 
 
@@ -134,3 +135,25 @@ In the future, the transformer will likely be replaced with a lower-voltage unit
 Additionally, mounting holes for THT potentiometers are included on the PCB to increase flexibility. This allows the board to be used either with panel-mounted multi-turn potentiometers or with onboard adjustment, enabling configuration as a fixed or adjustable voltage source.
 
 Each output rail includes two screw-terminal connectors to improve usability and versatility, allowing multiple connections and easier integration into laboratory setups.
+
+---
+
+## Project Files Description
+
+- **Power_supply.kicad_sch**  
+  KiCad schematic file containing the full electrical design of the power supply.
+
+- **Power_supply.kicad_pcb**  
+  PCB layout file with component placement, routing, copper zones, and mechanical details.
+
+- **Power_supply.kicad_pro**  
+  Main KiCad project file that links schematic, PCB, and project settings together.
+
+- **Power_supply.zip**  
+  Exported manufacturing package (Gerbers + drill files) prepared for PCB fabrication.
+
+- **bom.csv**  
+  Bill of Materials file listing all components used in the design, including values and references.
+
+- **positions.csv**  
+  Pick-and-place (component placement) file containing component coordinates and rotation data for assembly.
