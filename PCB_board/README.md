@@ -1,159 +1,168 @@
-# Adjustable Dual-Rail Linear Power Supply
+# Regulowany symetryczny zasilacz liniowy (Dual-Rail)
 
-
-
-
-## Overview
-
-This PCB implements a transformer-based adjustable symmetric linear power supply using LM317 (positive rail) and LM337 (negative rail).  
-The design is intended for analog laboratory and audio applications requiring adjustable dual-rail voltage.
-
-The supply includes current-boosting pass transistors, output protection, auxiliary regulation for panel electronics, and standard stability and protection elements as recommended in the regulator datasheets.
+https://github.com/Ekstazaa/Symmetric-Linear-Power-Supply-30V/blob/main/PCB_board/README.md
 
 ---
 
-### 3D Model:
+## 📖 Opis
+
+Ta płytka PCB implementuje transformatorowy, regulowany, symetryczny zasilacz liniowy oparty na układach LM317 (szyna dodatnia) oraz LM337 (szyna ujemna).  
+
+Projekt jest przeznaczony do zastosowań laboratoryjnych oraz audio, gdzie wymagane jest regulowane napięcie symetryczne.
+
+Zasilacz zawiera tranzystory mocy zwiększające wydajność prądową, zabezpieczenia wyjścia, dodatkową gałąź zasilania dla elektroniki panelowej oraz standardowe elementy stabilizujące zgodne z notami katalogowymi regulatorów.
+
+---
+
+### 🧊 Model 3D:
 <img width="1206" height="652" alt="image" src="https://github.com/user-attachments/assets/1e88aec4-d3cf-4337-9dc5-bc78ac05fb59" />
 
-### Scheamtic:
+### 📐 Schemat:
 <img width="1734" height="1191" alt="image" src="https://github.com/user-attachments/assets/934c705e-9a38-4ae2-ae31-69d0edb05fc9" />
 
 ---
 
-## Input Stage
+## ⚡ Stopień wejściowy
 
-The power supply is driven from a transformer providing:
+Zasilacz jest zasilany z transformatora o parametrach:
 
-- 2 × 32 VAC
-- Maximum current for each: 5 A
+- 2 × 32 VAC  
+- Maksymalny prąd: 5 A na uzwojenie  
 
-Rectification is implemented using a dual-diode full-wave configuration.  
-After rectification:
+Prostowanie realizowane jest w konfiguracji dwudiodowej (pełnookresowej).
 
-Each rail includes two 4700 µF bulk capacitors (4.7 mF per capacitor).  
-Due to the relatively moderate bulk capacitance and high load capability, ripple voltage increases under heavy load conditions.
+Po prostowaniu:
+
+Każda szyna zawiera dwa kondensatory filtrujące 4700 µF (łącznie 9.4 mF na szynę).  
+Ze względu na umiarkowaną pojemność filtrującą oraz możliwość pracy przy większych obciążeniach, tętnienia napięcia rosną przy wysokim poborze prądu.
 
 ---
 
-## Regulation Stage
+## 🔧 Stopień regulacji
 
-Voltage regulation is implemented using:
+Regulacja napięcia realizowana jest przy użyciu:
 
-- LM317 (positive rail)
-- LM337 (negative rail)
+- LM317 (szyna dodatnia)  
+- LM337 (szyna ujemna)  
 
-Both regulators are adjustable via external multi-turn potentiometers mounted off-board (front panel configuration).
-For additional flexibility, THT footprints for potentiometers are included on the PCB.  
-These can be used if the user needs or prefers the connstant output voltage.
+Regulatory są sterowane za pomocą zewnętrznych potencjometrów wieloobrotowych (montowanych na panelu przednim).
+
+Dodatkowo na PCB przewidziano footprinty THT dla potencjometrów, co pozwala:
+- używać regulacji bezpośrednio na płytce  
+- skonfigurować układ jako źródło napięcia stałego  
 
 <img width="408" height="153" alt="image" src="https://github.com/user-attachments/assets/947a3696-673c-44f5-ad98-845b30751597" />
 
+Każdy regulator zawiera:
 
-Each regulator includes:
-
-- 100 nF input capacitor
-- 1 µF output capacitor
-- Protection diodes to prevent reverse discharge during power-down
-- Startup bias implementation for controlled initial behavior
-
----
-
-## Current Boost Stage
-
-To extend output current beyond the 1.5 A limit of LM317/LM337, one external TIP-series pass transistor is used per rail.
-
-This allows the supply to deliver higher output current, while the regulators control the reference and stability.
-
-The output rails are protected by:
-
-- 4 A fuse per rail
-
-The design assumes a maximum intended continuous output current of approximately 4 A.
+- kondensator wejściowy 100 nF  
+- kondensator wyjściowy 1 µF  
+- diody zabezpieczające przed rozładowaniem wstecznym  
+- układ biasu startowego (kontrola zachowania przy starcie)
 
 ---
 
-## Maximum Output Voltage
+## 🔋 Stopień zwiększenia prądu
 
-Although the transformer provides 2 × 32 VAC, the maximum guaranteed regulated output voltage is approximately:
+Aby zwiększyć wydajność prądową ponad ograniczenie ~1.5 A regulatorów LM317/LM337, zastosowano po jednym tranzystorze mocy (serii TIP) na każdą szynę.
 
-±28 V DC
+Pozwala to na uzyskanie większego prądu wyjściowego, przy zachowaniu stabilizacji przez regulatory.
 
-This limitation is caused by cumulative voltage drops across:
+Zabezpieczenia wyjścia:
 
-- Rectifier diodes
-- Series resistances
-- Regulator dropout voltage
-- V_BE drop of the TIP pass transistors
+- bezpiecznik 4 A na każdą szynę  
 
-These drops ensure stable regulation but reduce the theoretical maximum voltage available at the output.
+Projekt zakłada maksymalny prąd ciągły na poziomie około 4 A.
 
 ---
 
-## Thermal Considerations
+## 📈 Maksymalne napięcie wyjściowe
 
-Due to the high rectified input voltage, substantial power dissipation occurs when the output voltage is set significantly lower than the input voltage.
+Mimo zastosowania transformatora 2 × 30 VAC, maksymalne stabilizowane napięcie wyjściowe wynosi około:
 
-Power dissipation can be approximated by:
+±28 V DC  
 
-P ≈ (Vin - Vout) × Iout
+Ograniczenie wynika ze spadków napięcia na:
 
-This results in considerable heat generation in:
-
-- LM317 / LM337 regulators
-- TIP pass transistors
-
-To manage thermal conditions, the PCB includes heatsinks rated approximately for passive cooling using radiators:
-
-- LM317 / LM337: up to ~10 W
-- TIP pass transistors: up to ~17 W
-
-These values assume adequate airflow and proper mechanical mounting.  
-Under sustained high-current operation at low output voltage, additional cooling or forced airflow may be required.
+- diodach prostownika  
+- rezystancjach pasożytniczych  
+- napięciu dropout regulatorów  
+- spadku V_BE tranzystorów TIP  
 
 ---
 
-## Auxiliary Supply
+## 🌡️ Warunki termiczne
 
-An additional LM7818 linear regulator branch provides:
+Ze względu na wysokie napięcie wejściowe, przy niskim napięciu wyjściowym wydzielana jest znaczna moc strat.
 
-- Supply for digital panel meters
-- Power LED indicator
+Przybliżenie:
+
+P ≈ (Vin - Vout) × Iout  
+
+Ciepło wydziela się głównie w:
+
+- regulatorach LM317 / LM337  
+- tranzystorach mocy  
+
+Zastosowane radiatory pozwalają na:
+
+- LM317 / LM337: ~10 W  
+- tranzystory TIP: ~17 W  
+
+Zakłada to odpowiedni przepływ powietrza i poprawny montaż mechaniczny.  
+Przy dużym prądzie i niskim napięciu wyjściowym może być wymagane dodatkowe chłodzenie.
+
+---
+
+## 🔌 Zasilanie pomocnicze
+
+Dodatkowa gałąź oparta o LM7818 zapewnia:
+
+- zasilanie mierników panelowych  
+- diodę sygnalizacyjną LED  
 
 <img width="259" height="248" alt="image" src="https://github.com/user-attachments/assets/1b0e8e8a-f235-46d7-a66c-f4c8405376f1" />
 
 ---
 
-## Design Notes & Limitations
+## ⚠️ Uwagi projektowe i ograniczenia
 
-The design was developed based on a 2 × 32 V transformer, primarily because it was readily available.  
-However, for most practical applications, a lower secondary voltage (e.g., 2 × 16–18 V) would be more appropriate.
+Projekt został wykonany z użyciem transformatora 2 × 30 V, głównie ze względu na jego dostępność.  
 
-In my use cases, the maximum required output voltage is ±12 V. Therefore, a 32 V transformer is overkill and results in significant voltage drop across the regulators. This leads to increased power dissipation and substantial heat generation.
+W praktyce bardziej optymalny byłby transformator o niższym napięciu wtórnym (np. 2 × 16–18 V).
 
-In the future, the transformer will likely be replaced with a lower-voltage unit better matched to the intended output range. For now, all testing is performed using the existing transformer, without applying heavy loads.
+W obecnym zastosowaniu wymagane napięcie to maksymalnie ±12 V, co oznacza, że:
 
-Additionally, mounting holes for THT potentiometers are included on the PCB to increase flexibility. This allows the board to be used either with panel-mounted multi-turn potentiometers or with onboard adjustment, enabling configuration as a fixed or adjustable voltage source.
+- transformator jest przewymiarowany napięciowo  
+- występują duże spadki napięcia na regulatorach  
+- generowane są znaczne straty mocy  
 
-Each output rail includes two screw-terminal connectors to improve usability and versatility, allowing multiple connections and easier integration into laboratory setups.
+W przyszłości planowana jest zmiana transformatora na lepiej dopasowany do zastosowania.  
+Obecnie testy wykonywane są bez dużych obciążeń.
+
+Dodatkowo:
+
+- PCB umożliwia montaż potencjometrów THT  
+- dostępne są dwa terminale śrubowe na każdą szynę (większa wygoda i elastyczność)
 
 ---
 
-## Project Files Description
+## 📁 Opis plików projektu
 
 - **Power_supply.kicad_sch**  
-  KiCad schematic file containing the full electrical design of the power supply.
+  Schemat elektryczny w KiCad
 
 - **Power_supply.kicad_pcb**  
-  PCB layout file with component placement, routing, copper zones, and mechanical details.
+  Layout PCB (rozmieszczenie elementów i ścieżki)
 
 - **Power_supply.kicad_pro**  
-  Main KiCad project file that links schematic, PCB, and project settings together.
+  Plik projektu KiCad
 
 - **Power_supply.zip**  
-  Exported manufacturing package (Gerbers + drill files) prepared for PCB fabrication.
+  Pliki produkcyjne (Gerbery + wiercenia)
 
 - **bom.csv**  
-  Bill of Materials file listing all components used in the design, including values and references.
+  Lista elementów (Bill of Materials)
 
 - **positions.csv**  
-  Pick-and-place (component placement) file containing component coordinates and rotation data for assembly.
+  Plik pick-and-place (pozycje komponentów)
