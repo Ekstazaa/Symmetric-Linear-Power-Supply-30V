@@ -33,10 +33,6 @@ Układ umożliwia regulację napięcia dodatniego i ujemnego względem wspólnej
 
 ## 🧠 Architektura
 
-Układ oparty jest o klasyczną topologię liniowego zasilacza:
-<przygotować rysunek>
-
-
 ### Główne elementy:
 - transformator toroidalny  
 - mostek prostowniczy  
@@ -56,7 +52,7 @@ Układ oparty jest o klasyczną topologię liniowego zasilacza:
 
 ## 🧪 Testy
 
-Zasilacz został przetestowany przy użyciu prostych obciążeń (np. LED + rezystor).
+Zasilacz został przetestowany przy użyciu prostych obciążeń (LED + rezystor).
 
 Obserwacje:
 - poprawna regulacja napięcia w całym zakresie  
@@ -67,7 +63,7 @@ Obserwacje:
 
 ## ⚠️ Problemy i kompromisy projektowe
 
-### 🔥 Inrush current
+### Inrush current
 
 Największym problemem projektu okazał się prąd rozruchowy.
 
@@ -82,24 +78,27 @@ Nie jest to rozwiązanie docelowe, ponieważ:
 - przekracza nominalny prąd transformatora (~1.25 A)  
 - zmniejsza skuteczność zabezpieczenia  
 
-👉 Planowane rozwiązania:
-- NTC (soft-start)  
-- układ soft-start na przekaźniku  
+Planowane rozwiązania:
+- przeniesienie kondensatorów redukujących tętnienia z przed regulatorami do wyjścia regulatorów, które mają już konstrukcje softstartu.
 
 ---
 
-### ⚡ Ograniczenie prądu
+### Ograniczenie prądu
 
 - regulatory LM317 / LM337 posiadają ograniczenie prądowe (~1.5 A)  
 - tranzystory mocy nie są zabezpieczone  
 
-👉 Planowane ulepszenie:
+Planowane ulepszenie:
 - zworka / bezpiecznik w torze tranzystorów  
 - łatwiejsze debugowanie i zabezpieczenie układu  
 
+### Kondensatory X i Y
+
+- brakuje kondensatorów bezpieczeństaw X i Y
+
 ---
 
-### 📉 Pomiar napięcia
+### Pomiar napięcia
 
 Zastosowane analogowe mierniki:
 - nie rozróżniają napięcia ujemnego  
@@ -107,36 +106,11 @@ Zastosowane analogowe mierniki:
 
 ---
 
-### 📦 Mechanika i chłodzenie
+### Mechanika i chłodzenie
 
 - obudowa jest dość ciasna  
 - ograniczony przepływ powietrza  
 - potencjalne problemy termiczne przy dużym obciążeniu  
-
----
-
-## 🚀 Możliwe ulepszenia
-
-- soft-start (NTC / przekaźnik)  
-- aktywne ograniczenie prądu tranzystorów  
-- cyfrowe mierniki napięcia i prądu  
-- lepsze chłodzenie  
-- optymalizacja okablowania  
-
----
-
-## 📁 Struktura repozytorium
-to jeszcze do uzupełnienia 
-
-## 🧠 Lessons Learned
-
-Projekt pozwolił wyciągnąć kilka ważnych wniosków:
-
-- duże kondensatory wejściowe powodują istotne problemy z prądem rozruchowym  
-- transformator powinien być dobrany do rzeczywistego zakresu napięcia  
-- w zasilaczach liniowych kluczowe są straty mocy i chłodzenie  
-- zabezpieczenia tranzystorów mocy są równie istotne jak regulatorów  
-- projektowanie hardware to kompromis między prostotą a niezawodnością  
 
 ---
 
@@ -148,4 +122,3 @@ Projekt jest w pełni działający i spełnia swoje założenia, jednak wymaga d
 - zabezpieczeń  
 - warunków termicznych  
 
-Stanowi solidną bazę do dalszego rozwoju i eksperymentów.
